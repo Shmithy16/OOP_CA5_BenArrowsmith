@@ -12,6 +12,7 @@ import java.util.List;
 
 public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
 {
+        //Jiri Uhlir
         @Override
         public List<Games> findAllGames() throws DaoException {
                 Connection connection = null;
@@ -71,23 +72,20 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
 
        //Ben Arrowsmith
         @Override
-        public Games findGameByID(int game_ID) throws DaoException
-        {
+        public Games findGameByID(int game_ID) throws DaoException {
                 Connection connection = null;
                 PreparedStatement preparedStatement = null;
                 ResultSet resultSet = null;
                 Games game = null;
-                try
-                {
+                try {
                         connection = this.getConnection();
 
                         String query = "SELECT * FROM GAMES WHERE id = ?";
                         preparedStatement = connection.prepareStatement(query);
-                        preparedStatement.setInt(1,game_ID);
+                        preparedStatement.setInt(1, game_ID);
 
                         resultSet = preparedStatement.executeQuery();
-                        if (resultSet.next())
-                        {
+                        if (resultSet.next()) {
                                 int gameId = resultSet.getInt("id");
                                 String gameTitle = resultSet.getString("gameTitle");
                                 String developer = resultSet.getString("developer");
@@ -97,31 +95,88 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
 
                                 game = new Games(gameId, gameTitle, developer, price, gbOfSpace, releaseDate);
                         }
-                } catch (SQLException e)
-                {
+                } catch (SQLException e) {
                         throw new DaoException("findGameByID() " + e.getMessage());
-                } finally
-                {
-                        try
-                        {
-                                if (resultSet != null)
-                                {
+                } finally {
+                        try {
+                                if (resultSet != null) {
                                         resultSet.close();
                                 }
-                                if (preparedStatement != null)
-                                {
+                                if (preparedStatement != null) {
                                         preparedStatement.close();
                                 }
-                                if (connection != null)
-                                {
+                                if (connection != null) {
                                         freeConnection(connection);
                                 }
-                        } catch (SQLException e)
-                        {
-                                throw new DaoException("findUserByUsernamePassword() " + e.getMessage());
+                        } catch (SQLException e) {
+                                        throw new DaoException("findUserByUsernamePassword() " + e.getMessage());
+                                }
                         }
+                        return game;     // reference to User object, or null value
                 }
-                return game;     // reference to User object, or null value
-        }
+               //John Nally
+                @Override
+                public Games deleteGameByID ( int game_id) throws DaoException {
+                        Connection connection = null;
+                        PreparedStatement preparedStatement = null;
+                        ResultSet resultSet = null;
+                        Games deletedGame = null;
 
+                        try {
+                                connection = this.getConnection();
+                                String query = "DELETE FROM GAMES WHERE id = ?";
+                                preparedStatement = connection.prepareStatement(query);
+                                preparedStatement.setInt(1, game_id);
+
+                                deletedGame = findGameByID(game_id);
+
+                                preparedStatement.executeUpdate();
+
+                        } catch (SQLException e) {
+                                throw new DaoException("deleteGameByID() " + e.getMessage());
+                        } finally {
+                                try {
+                                        if (resultSet != null) {
+                                                resultSet.close();
+                                        }
+                                        if (preparedStatement != null) {
+                                                preparedStatement.close();
+                                        }
+
+                                        if (connection != null) {
+                                                connection.close();
+                                        }
+                                } catch (SQLException e) {
+                                        throw new DaoException("deleteGameByID() " + e.getMessage());
+                                }
+                        }
+                        return deletedGame;
+                }
+
+                //John Nally
+                @Override
+                public void insertGame (Games games) throws DaoException {
+                        Connection connection = null;
+                        PreparedStatement preparedStatement = null;
+
+                        connection = this.getConnection();
+
+                        String query = "INSERT INTO games (id, gameTitle, developer, price, gbOfSpace, releaseDate) VALUES (?, ?, ?, ?, ?, ?)";
+
+                        try {
+                                preparedStatement = connection.prepareStatement(query);
+
+                                preparedStatement.setInt(1, games.getId());
+                                preparedStatement.setString(2, games.getGameTitle());
+                                preparedStatement.setString(3, games.getDeveloper());
+                                preparedStatement.setInt(4, games.getPrice());
+                                preparedStatement.setFloat(5, games.getGbOfSpace());
+                                java.util.Date utilDate = games.getRealeaseDate();
+                                java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+                                preparedStatement.setDate(6, sqlDate);
+                                preparedStatement.executeUpdate();
+                        } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                        }
+        }
 }
