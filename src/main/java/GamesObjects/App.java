@@ -20,6 +20,7 @@ public class App
 
         try
         {
+            //Jiri
             System.out.println("\nCall findAllGames()");
             List<Games> games = IUserDao.findAllGames();
 
@@ -30,6 +31,7 @@ public class App
                     System.out.println("User: " + game.toString());
             }
 
+            //Ben
             System.out.println("\nCall findGameByID");
             int gameId = 110;
 
@@ -40,12 +42,14 @@ public class App
             else
                 System.out.println("Game with that ID not found");
 
+            //Ben
             System.out.println("Sort by Title:");
 
             gameTitleComparator titleComparator = new gameTitleComparator();
             Collections.sort( games, titleComparator );
             display(games);
 
+            //John
             System.out.println("\nCall deleteGameByID");
             int gameToDeleteId = 111;
 
@@ -55,6 +59,7 @@ public class App
                 System.out.println("Deleted Game: " + deletedGame);
             else
                 System.out.println("No game to delete :<");
+            //John
             System.out.println("\nCall insertGame");
             IUserDao.insertGame(new Games(959, "bluhbluh", "99", 23, 473, new Date(364738274)));
 
