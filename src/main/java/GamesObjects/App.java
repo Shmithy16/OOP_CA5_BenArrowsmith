@@ -10,8 +10,6 @@ import DTOs.Games;
 import DTOs.gameTitleComparator;
 import Exceptions.DaoException;
 
-
-
 public class App
 {
     public static void main(String[] args)
@@ -63,12 +61,16 @@ public class App
             System.out.println("\nCall insertGame");
             IUserDao.insertGame(new Games(959, "bluhbluh", "99", 23, 473, new Date(364738274)));
 
+            //Jiri
+            IUserDao.updatePriceById(101, 50);
+
         }
         catch(DaoException e )
         {
             e.printStackTrace();
         }
     }
+    //Ben
     public static void display(List<Games> games)
     {
         for (Games game: games) { System.out.println(game); }

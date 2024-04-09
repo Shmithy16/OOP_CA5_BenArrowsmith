@@ -179,4 +179,30 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
                                 throw new RuntimeException(e);
                         }
         }
+        //Jiri
+        @Override
+        public Games findById(int id){
+                return null;
+        }
+
+        //Jiri
+        @Override
+        public void updatePriceById(int id, int newPrice){
+                Connection connection = null;
+
+                try{
+                        connection = this.getConnection();
+                        String sq1 = "UPDATE games SET price=? WHERE id=?";
+                        PreparedStatement statement = connection.prepareStatement(sq1);
+                        statement.setInt(1, newPrice);
+                        statement.setInt(2, id);
+                        statement.executeUpdate();
+                        System.out.println("Price updated successfully for game with ID: " + id);
+
+                } catch(SQLException e){
+                        e.printStackTrace();
+                }
+
+        }
+
 }
