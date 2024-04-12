@@ -6,9 +6,10 @@ import java.util.Collections;
 
 import DAOs.MySqlGamesDao;
 import DAOs.GamesDaoInterface;
-import DTOs.Games;
+import DTOs.Game;
 import DTOs.gameTitleComparator;
 import Exceptions.DaoException;
+import JSON.JsonConverter;
 
 public class App
 {
@@ -20,12 +21,12 @@ public class App
         {
             //Jiri
             System.out.println("\nCall findAllGames()");
-            List<Games> games = IUserDao.findAllGames();
+            List<Game> games = IUserDao.findAllGames();
 
             if( games.isEmpty() )
                 System.out.println("There are no Games");
             else {
-                for (Games game : games)
+                for (Game game : games)
                     System.out.println("User: " + game.toString());
             }
 
@@ -33,7 +34,7 @@ public class App
             System.out.println("\nCall findGameByID");
             int gameId = 110;
 
-            Games game = IUserDao.findGameByID(gameId);
+            Game game = IUserDao.findGameByID(gameId);
 
             if( game != null ) // null returned if userid and password not valid
                 System.out.println("Game found: " + game);
@@ -51,7 +52,7 @@ public class App
             System.out.println("\nCall deleteGameByID");
             int gameToDeleteId = 111;
 
-            Games deletedGame = IUserDao.deleteGameByID(gameToDeleteId);
+            Game deletedGame = IUserDao.deleteGameByID(gameToDeleteId);
 
             if (deletedGame != null)
                 System.out.println("Deleted Game: " + deletedGame);
@@ -59,8 +60,11 @@ public class App
                 System.out.println("No game to delete :<");
             //John
             System.out.println("\nCall insertGame");
-            IUserDao.insertGame(new Games(959, "bluhbluh", "99", 23, 473, new Date(364738274)));
+            Game g = new Game(959, "bluhbluh", "99", 23, 473, new Date(364738274));
+            IUserDao.insertGame(g);
 
+            String result = JsonConverter.gameToJson(g);
+            System.out.println(result);
             //Jiri
             IUserDao.updatePriceById(101, 50);
 
@@ -71,9 +75,9 @@ public class App
         }
     }
     //Ben
-    public static void display(List<Games> games)
+    public static void display(List<Game> games)
     {
-        for (Games game: games) { System.out.println(game); }
+        for (Game game: games) { System.out.println(game); }
     }
 }
 

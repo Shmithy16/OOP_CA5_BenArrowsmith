@@ -1,6 +1,6 @@
 package DAOs;
 
-import DTOs.Games;
+import DTOs.Game;
 import Exceptions.DaoException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,11 +14,11 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
 {
         //Jiri Uhlir
         @Override
-        public List<Games> findAllGames() throws DaoException {
+        public List<Game> findAllGames() throws DaoException {
                 Connection connection = null;
                 PreparedStatement preparedStatement = null;
                 ResultSet resultSet = null;
-                List<Games> gamesList = new ArrayList<>();
+                List<Game> gameList = new ArrayList<>();
 
                 try
                 {
@@ -40,8 +40,8 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
                                 float gbOfSpace = resultSet.getFloat("gbOfSpace");
                                 Date releaseDate = resultSet.getDate("releaseDate");
 
-                                Games g = new Games(gameId, gameTitle, developer, price, gbOfSpace, releaseDate);
-                                gamesList.add(g);
+                                Game g = new Game(gameId, gameTitle, developer, price, gbOfSpace, releaseDate);
+                                gameList.add(g);
                         }
                 } catch (SQLException e)
                 {
@@ -67,16 +67,16 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
                                 throw new DaoException("findAllGames() " + e.getMessage());
                         }
                 }
-                return gamesList;     // may be empty
+                return gameList;     // may be empty
         }
 
        //Ben Arrowsmith
         @Override
-        public Games findGameByID(int game_ID) throws DaoException {
+        public Game findGameByID(int game_ID) throws DaoException {
                 Connection connection = null;
                 PreparedStatement preparedStatement = null;
                 ResultSet resultSet = null;
-                Games game = null;
+                Game game = null;
                 try {
                         connection = this.getConnection();
 
@@ -93,7 +93,7 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
                                 float gbOfSpace = resultSet.getFloat("gbOfSpace");
                                 Date releaseDate = resultSet.getDate("releaseDate");
 
-                                game = new Games(gameId, gameTitle, developer, price, gbOfSpace, releaseDate);
+                                game = new Game(gameId, gameTitle, developer, price, gbOfSpace, releaseDate);
                         }
                 } catch (SQLException e) {
                         throw new DaoException("findGameByID() " + e.getMessage());
@@ -116,11 +116,11 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
                 }
                //John Nally
                 @Override
-                public Games deleteGameByID ( int game_id) throws DaoException {
+                public Game deleteGameByID (int game_id) throws DaoException {
                         Connection connection = null;
                         PreparedStatement preparedStatement = null;
                         ResultSet resultSet = null;
-                        Games deletedGame = null;
+                        Game deletedGame = null;
 
                         try {
                                 connection = this.getConnection();
@@ -155,7 +155,7 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
 
                 //John Nally
                 @Override
-                public void insertGame (Games games) throws DaoException {
+                public void insertGame (Game game) throws DaoException {
                         Connection connection = null;
                         PreparedStatement preparedStatement = null;
 
@@ -166,12 +166,12 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
                         try {
                                 preparedStatement = connection.prepareStatement(query);
 
-                                preparedStatement.setInt(1, games.getId());
-                                preparedStatement.setString(2, games.getGameTitle());
-                                preparedStatement.setString(3, games.getDeveloper());
-                                preparedStatement.setInt(4, games.getPrice());
-                                preparedStatement.setFloat(5, games.getGbOfSpace());
-                                java.util.Date utilDate = games.getRealeaseDate();
+                                preparedStatement.setInt(1, game.getId());
+                                preparedStatement.setString(2, game.getGameTitle());
+                                preparedStatement.setString(3, game.getDeveloper());
+                                preparedStatement.setInt(4, game.getPrice());
+                                preparedStatement.setFloat(5, game.getGbOfSpace());
+                                java.util.Date utilDate = game.getRealeaseDate();
                                 java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
                                 preparedStatement.setDate(6, sqlDate);
                                 preparedStatement.executeUpdate();
@@ -181,7 +181,7 @@ public class MySqlGamesDao extends MySqlDao implements GamesDaoInterface
         }
         //Jiri
         @Override
-        public Games findById(int id){
+        public Game findById(int id){
                 return null;
         }
 
