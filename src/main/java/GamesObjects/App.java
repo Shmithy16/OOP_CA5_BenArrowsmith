@@ -63,8 +63,11 @@ public class App
             Game g = new Game(959, "bluhbluh", "99", 23, 473, new Date(364738274));
             IUserDao.insertGame(g);
 
-            String result = JsonConverter.gameToJson(g);
-            System.out.println(result);
+            //Ben
+            String result = JsonConverter.gameToJson(games);
+            System.out.println("JSON convert" + result);
+
+
             //Jiri
             IUserDao.updatePriceById(101, 50);
 

@@ -4,11 +4,10 @@ import DTOs.Game;
 import com.google.gson.Gson;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Date;
 
+//Ben
 public class JsonConverter{
-    public static String gameToJson(Game game){
+    public static String gameToJson(List<Game> game){
 
 //            List<Game> games = new ArrayList<>();
 //
@@ -16,11 +15,11 @@ public class JsonConverter{
 //
 //            games.add(gms);
 
-            Gson gsonParser = new Gson();
+        Gson gsonParser = new Gson();
 
-            String jsonString = gsonParser.toJson(game);
+        String jsonString = gsonParser.toJson(game);
 
-            return jsonString;
+        return jsonString;
 
     }
 }
