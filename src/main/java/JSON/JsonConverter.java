@@ -7,7 +7,7 @@ import java.util.List;
 
 //Ben
 public class JsonConverter{
-    public static String gameToJson(List<Game> game){
+    public static String gamesToJson(List<Game> game){
 
 //            List<Game> games = new ArrayList<>();
 //
@@ -20,6 +20,12 @@ public class JsonConverter{
         String jsonString = gsonParser.toJson(game);
 
         return jsonString;
+    }
+    public static String gameToJson(Game game){
+        Gson gsonParser = new Gson();
 
+        String jsonString = gsonParser.toJson(game);
+
+        return jsonString;
     }
 }

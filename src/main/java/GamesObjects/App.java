@@ -10,15 +10,47 @@ import DTOs.Game;
 import DTOs.gameTitleComparator;
 import Exceptions.DaoException;
 import JSON.JsonConverter;
+import java.util.*;
 
 public class App
 {
     public static void main(String[] args)
     {
+        boolean menu_open = true;
+
         GamesDaoInterface IUserDao = new MySqlGamesDao();
 
         try
         {
+            while (menu_open) {
+
+                System.out.println("[1] Press 1 to Display Entity by Id");
+                System.out.println("[2] Press 2 to other");
+
+
+                //input
+                Scanner menu = new Scanner(System.in);
+                int answer = menu.nextInt();
+
+                if(answer==1) {
+                    System.out.println("Enter ID: ");
+
+                    Scanner options = new Scanner(System.in);
+                    int newID = options.nextInt();
+
+                    Game game = IUserDao.findGameByID(newID);
+
+                    if( game != null ) { // null returned if userid and password not valid
+                        String result = JsonConverter.gameToJson(game);
+                        System.out.println("JSON convert" + result);
+                    }
+                    else
+                        System.out.println("Game with that ID not found");
+                }
+                if(answer==2) {
+                    menu_open = false;
+                }
+            }
             //Jiri
             System.out.println("\nCall findAllGames()");
             List<Game> games = IUserDao.findAllGames();
@@ -64,7 +96,7 @@ public class App
             IUserDao.insertGame(g);
 
             //Ben
-            String result = JsonConverter.gameToJson(games);
+            String result = JsonConverter.gamesToJson(games);
             System.out.println("JSON convert" + result);
 
 
