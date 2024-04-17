@@ -22,6 +22,7 @@ public class App
 
         try
         {
+            //Ben
             while (menu_open) {
 
                 System.out.println("[1] Press 1 to Display Entity by Id");
@@ -32,6 +33,7 @@ public class App
                 Scanner menu = new Scanner(System.in);
                 int answer = menu.nextInt();
 
+                //Ben
                 if(answer==1) {
                     System.out.println("Enter ID: ");
 
