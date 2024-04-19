@@ -16,7 +16,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    final int PORT_NUMBER = 8888;  // could be any port from 1024 to 49151 (that doesn't clash with other Apps)
+    final int PORT_NUMBER = 8889;  // could be any port from 1024 to 49151 (that doesn't clash with other Apps)
 
     public static void main(String[] args) {
         Server server = new Server();
@@ -35,21 +35,24 @@ public class Server {
 
             GamesDaoInterface IUserDao = new MySqlGamesDao();
 
-            int message = in.read();
+            String message = in.readLine();
 
             System.out.println("The GreetingServer has received this message from a client: " + message);
             System.out.println("The server is replying to the client.");
 
-            Game game = IUserDao.findGameByID(message);
-
-            String result = JsonConverter.gameToJson(game);
-            if( game != null ) { // null returned if userid and password not valid
-                out.println(result);
+            if("yes".equals(message)){
+                out.println("Bye");
             }
-            else
-                out.println("Game with that ID not found");
+            else{
+                Game game = IUserDao.findGameByID(Integer.parseInt(message));
 
+                String result = JsonConverter.gameToJson(game);
+                if (game != null) { // null returned if userid and password not valid
+                    out.println(result);
+                } else
+                    out.println("Game with that ID not found");
 
+            }
             System.out.println("The GreetingServer is finished, and is exiting. Goodbye!");
 
         } catch (IOException exception) {

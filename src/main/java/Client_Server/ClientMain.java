@@ -1,10 +1,10 @@
 package Client_Server;
 
-import DAOs.GamesDaoInterface;
-import DAOs.MySqlGamesDao;
-import DTOs.Game;
-import Exceptions.DaoException;
-import JSON.JsonConverter;
+//import DAOs.GamesDaoInterface;
+//import DAOs.MySqlGamesDao;
+//import DTOs.Game;
+//import Exceptions.DaoException;
+//import JSON.JsonConverter;
 
 import java.io.*;
 import java.net.Socket;
@@ -15,63 +15,52 @@ import java.util.Scanner;
 public class ClientMain {
     public static void main(String[] args) {
         ClientMain client = new ClientMain();
-        client.start(8888); // start client to connect to the port number that the server uses
+        client.start(8889); // start client to connect to the port number that the server uses
     }
 
     public void start(int portNumber) {
 
-        try (   // create socket in client to connect to the server
-                Socket socket = new Socket("localhost", 8888);
-                // get the socket's output stream
+        try (
+                Socket socket = new Socket("localhost", 8889);
                 OutputStream outputStream = socket.getOutputStream();
         ) {
-
-            boolean menu_open = true;
-
 
             PrintWriter out = new PrintWriter(outputStream, true);
             System.out.println("The client is running and has connected to the server.");
 
-            while (menu_open) {
+            //Ben
+            System.out.println("[1] Press 1 to Display Entity by Id");
+            System.out.println("[2] Press 2 to end");
 
-                System.out.println("[1] Press 1 to Display Entity by Id");
-                System.out.println("[2] Press 2 to other");
+            Scanner menu = new Scanner(System.in);
+            int answer = menu.nextInt();
 
+            if(answer==1) {
+                System.out.println("Enter ID: ");
 
-                //input
-                Scanner menu = new Scanner(System.in);
-                int answer = menu.nextInt();
+                Scanner options = new Scanner(System.in);
+                int newID = options.nextInt();
 
-                //Ben
-                if(answer==1) {
-                    System.out.println("Enter ID: ");
+                out.println(newID);
 
-                    Scanner options = new Scanner(System.in);
-                    int newID = options.nextInt();
+                Integer.toString(newID);
 
-                    System.out.println(newID);
-                    out.println(newID);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
+                String response = in.readLine();    // wait, and receive a return message from the server
+                System.out.println("In client: The server response was : " + response);
+            }
+            if(answer==2) {
+                System.out.println("Do you want to end?: ");
 
-                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-                    String response = in.readLine();    // wait, and receive a return message from the server
-                    System.out.println("In client: The server response was : " + response);
-
-                }
-                if(answer==2) {
-                    menu_open = false;
-                }
+                Scanner options = new Scanner(System.in);
+                String exit = options.nextLine();
+                out.println(exit);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                String response = in.readLine();
+                System.out.println("In client: The server response was : " + response);
             }
 
-                // send greeting message to server via socket
-
-            // Next, deal with the response from the server:
-            // - get the input stream from the socket, and wrap in a reader
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            String response = in.readLine();    // wait, and receive a return message from the server
-            System.out.println("In client: The server response was : " + response);
             System.out.println("Finished! - client is exiting.");
 
         } catch (UnknownHostException e) {
