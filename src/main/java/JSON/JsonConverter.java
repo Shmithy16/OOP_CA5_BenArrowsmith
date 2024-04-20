@@ -7,6 +7,7 @@ import java.util.List;
 
 //Ben
 public class JsonConverter{
+    //Ben
     public static String gamesToJson(List<Game> game){
 
 //            List<Game> games = new ArrayList<>();
@@ -21,11 +22,21 @@ public class JsonConverter{
 
         return jsonString;
     }
+    //Ben
     public static String gameToJson(Game game){
         Gson gsonParser = new Gson();
 
         String jsonString = gsonParser.toJson(game);
 
         return jsonString;
+    }
+    //Jiri
+    public static String convertEntityToJson(Game game, String key){
+        Gson gsonParser = new Gson();
+        String jsonString = gsonParser.toJson(game);
+
+        String jsonEntity = "{" + "\"" + key + "\"" + ":" + "\"" + game.getGameTitle() + "\"" + "}";
+
+        return jsonEntity;
     }
 }

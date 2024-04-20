@@ -15,6 +15,8 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
+//Ben
 public class Server {
     final int PORT_NUMBER = 8889;  // could be any port from 1024 to 49151 (that doesn't clash with other Apps)
 
@@ -31,6 +33,7 @@ public class Server {
              PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
         ) {
+            //Ben
             System.out.println("The server has started and is waiting for a client to connect.");
 
             GamesDaoInterface IUserDao = new MySqlGamesDao();
@@ -40,9 +43,11 @@ public class Server {
             System.out.println("The GreetingServer has received this message from a client: " + message);
             System.out.println("The server is replying to the client.");
 
+            //Ben
             if("yes".equals(message)){
                 out.println("Bye");
             }
+            //Ben
             else{
                 Game game = IUserDao.findGameByID(Integer.parseInt(message));
 

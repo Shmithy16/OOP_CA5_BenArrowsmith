@@ -26,6 +26,7 @@ public class App
             while (menu_open) {
 
                 System.out.println("[1] Press 1 to Display Entity by Id");
+
                 System.out.println("[2] Press 2 to other");
 
 
@@ -51,6 +52,13 @@ public class App
                 }
                 if(answer==2) {
                     menu_open = false;
+                }
+                //Jiri
+                if(answer == 3){
+                    System.out.println("Enter ID to delete: ");
+                    int idToDelete = menu.nextInt();
+                    deleteEntityById(idToDelete, IUserDao);
+
                 }
             }
             //Jiri
@@ -104,6 +112,17 @@ public class App
 
             //Jiri
             IUserDao.updatePriceById(101, 50);
+            //Jiri - Feature 8
+            System.out.println("\nFeature 8:");
+            int anotherGameID = 113;
+            Game anotherGame = IUserDao.findGameByID(anotherGameID);
+
+            if(anotherGame != null){
+                String jsonAnotherEntity = JsonConverter.convertEntityToJson(anotherGame, "gameTitle");
+                System.out.println("JSON Single Entity Converted: " + jsonAnotherEntity);
+            } else{
+                System.out.println("Game with that ID not found");
+            }
 
         }
         catch(DaoException e )
@@ -115,6 +134,16 @@ public class App
     public static void display(List<Game> games)
     {
         for (Game game: games) { System.out.println(game); }
+    }
+    //Jiri
+    public static void deleteEntityById(int id, GamesDaoInterface userDao) throws DaoException {
+        Game deletedGame = userDao.deleteGameByID(id);
+
+        if(deletedGame != null){
+            System.out.println("Deleted Game: " + deletedGame);
+        } else{
+            System.out.println("No game to delete");
+        }
     }
 }
 

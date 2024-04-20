@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-
+//Ben
 public class ClientMain {
     public static void main(String[] args) {
         ClientMain client = new ClientMain();
@@ -35,6 +35,7 @@ public class ClientMain {
             Scanner menu = new Scanner(System.in);
             int answer = menu.nextInt();
 
+            //Ben
             if(answer==1) {
                 System.out.println("Enter ID: ");
 
@@ -50,6 +51,7 @@ public class ClientMain {
                 String response = in.readLine();    // wait, and receive a return message from the server
                 System.out.println("In client: The server response was : " + response);
             }
+            //Ben
             if(answer==2) {
                 System.out.println("Do you want to end?: ");
 
